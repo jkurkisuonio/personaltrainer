@@ -37,23 +37,11 @@ class CustomerTable extends Component
             },
 
            
-            
-
-
-
-
-
-
-
-
-
-
-
             {
                 Header: "Delete",
                 id:'delete',
                 accessor: str => "delete",
-            
+                filterable: false,            
                 Cell: (row)=> (
                 <button
                       onClick={() => {
@@ -68,7 +56,7 @@ class CustomerTable extends Component
 
 
 return(
-    <ReactTable data={this.props.customers} columns={columns} sortable={true} defaultPageSize={10} /> )
+    <ReactTable data={this.props.customers} filterable={true} columns={columns} sortable={true} defaultPageSize={10} /> )
 }
 };
 export default CustomerTable;

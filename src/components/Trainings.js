@@ -6,6 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ReactTable from 'react-table-v6';
+import moment from 'moment';
 
 export default function Trainings(props) {
     const [open, setOpen] = React.useState(false);
@@ -61,9 +62,9 @@ export default function Trainings(props) {
               "href" : "https://customerrest.herokuapp.com/api/trainings/13/customer"
             } ]
           }, {*/
-        
-         {Header:'Date', accessor: 'date'}, //  String-based value accessors!
-         {Header:'Duration', accessor: 'duration'}, //  String-based value accessors!
+            {Header:'Date', accessor: 'date', show: false},
+         {Cell: ({row, original}) =>  moment(original.date).format('LL'), Header: 'Date'},
+         {   Header:'Duration', accessor: 'duration', Cell: (row) => row.value != null ? row.value + " min" : null    }, //  String-based value accessors!
          {Header:'Activity', accessor: 'activity'} //  String-based value accessors!                          
      ]
 
@@ -76,8 +77,7 @@ export default function Trainings(props) {
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Trainings of {props.name}</DialogTitle>
-        <DialogContent>   
-           TRAINING HERE ...
+        <DialogContent>             
            <ReactTable data={trainings} columns={columns} sortable={true} defaultPageSize={10} /> 
         </DialogContent>
         <DialogActions>
