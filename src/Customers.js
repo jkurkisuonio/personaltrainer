@@ -33,7 +33,7 @@ function Customers() {
 
 return (
 <div>
-    <h1>CUSTOMERS PAGE HERE.</h1>
+    <h1>CUSTOMERS: </h1>
     <CustomerTable customers={customers} />
 
 
