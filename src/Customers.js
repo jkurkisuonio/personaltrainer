@@ -1,14 +1,38 @@
 import React, { useState }  from 'react';
 import CustomerTable from './components/CustomerTable';
+import AddCustomer from './components/AddCustomer';
 function Customers() {
 
     const [customer, setCustomer] = useState({desc: '', date: ''});
     const [customers, setCustomers] = useState([]);
+
+
+    const updateCustomer = (customer, link) => {
+      fetch(link, {
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(customer)
+      })
+      .then( res => fetchData())
+      .catch(err => console.error(err))
+    
+  }
+
+
   
-    const addCustomer = (event) => {
-      event.preventDefault();
-      setCustomers([...customers, customer]);
-    }
+    const saveCustomer = (customer) => {
+      fetch('https://customerrest.herokuapp.com/api/customers', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(customer)
+      })
+      .then( res => fetchData())
+      .catch(err => console.error(err))
+  }
   
     const inputChanged = (event) => {
       setCustomer({...customer, [event.target.name]: event.target.value});
@@ -19,7 +43,12 @@ function Customers() {
       };
 
       React.useEffect(() => {
-          console.log("Start fetching customers...");
+          fetchData()
+      }, [])
+
+      const fetchData = () =>
+      {
+        console.log("Start fetching customers...");
         fetch('https://customerrest.herokuapp.com/api/customers')
         .then(response => response.json()) 
         .then(responseData => { 
@@ -27,14 +56,14 @@ function Customers() {
           console.log("Customers:" + responseData.content);
         })
         .catch(err => console.error(err))
-      }, [])
-
+      }
 
 
 return (
 <div>
     <h1>CUSTOMERS: </h1>
-    <CustomerTable customers={customers} />
+    <AddCustomer saveCustomer={saveCustomer} />
+    <CustomerTable customers={customers} updateCustomer={updateCustomer} />
 
 
 

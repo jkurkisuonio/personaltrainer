@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactTable from 'react-table-v6';
 import 'react-table-v6/react-table.css';
 import Trainings from './Trainings';
+import EditCustomer from './EditCustomer';
 
 class CustomerTable extends Component
 {
@@ -36,7 +37,13 @@ class CustomerTable extends Component
           
             },
 
-           
+            {
+                sortable: false,
+                filterable: false,
+                width: 100,
+                accessor: '_links.self.href',
+                Cell: row => <EditCustomer updateCustomer={this.props.updateCustomer} customer={row.original} />
+            },  
             {
                 Header: "Delete",
                 id:'delete',
