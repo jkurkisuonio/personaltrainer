@@ -20,6 +20,15 @@ function Customers() {
     
   }
 
+  const deleteCustomer = (link) => {
+    if (window.confirm('Are you sure?')){
+    fetch(link,{method: 'DELETE'})
+    .then (res => { fetchData();   
+    })
+    .catch(err => console.error(err))
+    }
+} 
+
 
   
     const saveCustomer = (customer) => {
@@ -34,15 +43,7 @@ function Customers() {
       .catch(err => console.error(err))
   }
   
-    const inputChanged = (event) => {
-      setCustomer({...customer, [event.target.name]: event.target.value});
-    }
-    
-    const dateChanged = event => {
-      setCustomer({ ...customer, [event.target.name]: event.target.value });
-      };
-
-      React.useEffect(() => {
+    React.useEffect(() => {
           fetchData()
       }, [])
 
@@ -63,11 +64,7 @@ return (
 <div>
     <h1>CUSTOMERS: </h1>
     <AddCustomer saveCustomer={saveCustomer} />
-    <CustomerTable customers={customers} updateCustomer={updateCustomer} />
-
-
-
-
+    <CustomerTable customers={customers} updateCustomer={updateCustomer} deleteCustomer={deleteCustomer} />
 </div>
 );
 }

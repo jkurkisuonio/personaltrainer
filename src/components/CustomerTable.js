@@ -3,6 +3,7 @@ import ReactTable from 'react-table-v6';
 import 'react-table-v6/react-table.css';
 import Trainings from './Trainings';
 import EditCustomer from './EditCustomer';
+import Button from '@material-ui/core/Button';
 
 class CustomerTable extends Component
 {
@@ -45,17 +46,16 @@ class CustomerTable extends Component
                 Cell: row => <EditCustomer updateCustomer={this.props.updateCustomer} customer={row.original} />
             },  
             {
-                Header: "Delete",
+                
                 id:'delete',
-                accessor: str => "delete",
+                accessor: '_links.self.href',
+                sortable: false,
+                width: 100,
                 filterable: false,            
                 Cell: (row)=> (
-                <button
-                      onClick={() => {
-                       //   delCustomer(row.index)
-                        }}>
+                <Button style={{margin: 10}} variant="outlined" size="small" color="secondary" onClick={() => this.props.deleteCustomer(row.original.links[1].href)}>
                           Delete
-                        </button> 
+                        </Button> 
                 )}
 
                     
