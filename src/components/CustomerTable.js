@@ -34,7 +34,7 @@ class CustomerTable extends Component
                 filterable: false,
                 width: 100,
                 accessor: 'links[2].href',               
-                Cell: ({row, original}) => <Trainings link={original.links[2].href}  name={original.firstname + ' ' + original.lastname}/>
+                Cell: ({row, original}) => <Trainings links={original.links}  name={original.firstname + ' ' + original.lastname} saveTraining={this.props.saveTraining} />
           
             },
 

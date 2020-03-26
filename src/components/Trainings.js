@@ -7,23 +7,52 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ReactTable from 'react-table-v6';
 import moment from 'moment';
+import AddTraining from './AddTraining';
 
 export default function Trainings(props) {
     const [open, setOpen] = React.useState(false);
 
-    const handleClickOpen = () => {
-      // Fetch particular Customers training sessions.
-      console.log("Start fetching trainings...");
-      fetch(props.link)
-      .then(response => response.json()) 
-      .then(responseData => { 
-        setTrainings(responseData.content);
-        console.log("Trainings: " + responseData.content);
-      })
-      .catch(err => console.error(err))
-
+    const handleClickOpen = () => {     
+      fetchData();
       setOpen(true);
     };
+
+    const fetchData = () =>
+    {
+      // Fetch particular Customers training sessions.
+      console.log("Start fetching trainings...");
+      console.log("LINKS:");
+      console.log(props.links);
+      fetch(props.links[2].href)
+      .then(response => response.json()) 
+      .then(responseData => { 
+       setTrainings(responseData.content);
+      console.log("Trainings: " + responseData.content);
+ })
+ .catch(err => console.error(err))
+    }
+
+    const saveTraining = (links,trainings,selectedDate) => {
+      // TODO: implement saveTrainings to Backend.
+      console.log("Links: " + links[2].href);
+      console.log("Trainings: " + trainings);
+      console.log("selectedDate: " + selectedDate);
+      console.log("Duration: " + trainings.duration);
+      trainings.customer = links[0].href;
+      trainings.date = selectedDate;      
+      fetch("https://customerrest.herokuapp.com/api/trainings", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        
+        body: JSON.stringify(trainings)
+    })
+    .then( res => fetchData())
+    .catch(err => console.error(err))
+    }
+
+
   
     const handleClose = () => {
       setOpen(false);
@@ -77,6 +106,7 @@ export default function Trainings(props) {
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Trainings of {props.name}</DialogTitle>
+        <AddTraining name={props.name} saveTraining={saveTraining} links={props.links}  />
         <DialogContent>             
            <ReactTable data={trainings} columns={columns} sortable={true} defaultPageSize={10} /> 
         </DialogContent>

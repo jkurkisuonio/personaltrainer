@@ -1,10 +1,14 @@
 import React, { useState }  from 'react';
 import CustomerTable from './components/CustomerTable';
 import AddCustomer from './components/AddCustomer';
+import MySnackBar from './components/MySnackBar';
+
 function Customers() {
 
     const [customer, setCustomer] = useState({desc: '', date: ''});
     const [customers, setCustomers] = useState([]);
+    const [snackbarVisible, setSnackBarVisible] = useState(true);
+    const [snackbarMsg, setSnackbarMsg] = useState('');
 
 
     const updateCustomer = (customer, link) => {
@@ -23,11 +27,27 @@ function Customers() {
   const deleteCustomer = (link) => {
     if (window.confirm('Are you sure?')){
     fetch(link,{method: 'DELETE'})
-    .then (res => { fetchData();   
+    .then (res => { fetchData();
+      setSnackbarMsg('Customer Deleted.');
+     setSnackBarVisible(true);
     })
     .catch(err => console.error(err))
     }
 } 
+
+ const handleClose = (event, reason) => {
+ if (reason === 'clickaway') {
+           return true;
+      }
+        return false;
+        
+     };
+
+ const handleOpen = () =>
+ {
+   return true;
+}
+
 
 
   
@@ -64,7 +84,8 @@ return (
 <div>
     <h1>CUSTOMERS: </h1>
     <AddCustomer saveCustomer={saveCustomer} />
-    <CustomerTable customers={customers} updateCustomer={updateCustomer} deleteCustomer={deleteCustomer} />
+    <CustomerTable customers={customers} updateCustomer={updateCustomer} deleteCustomer={deleteCustomer}  />
+    <MySnackBar visible={snackbarVisible} message={snackbarMsg} handleOpen={handleOpen} handleClose={handleClose} />
 </div>
 );
 }
