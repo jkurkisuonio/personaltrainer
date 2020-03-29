@@ -105,12 +105,12 @@ export default function AddTraining(props){
            
         
       <Typography id="discrete-slider" gutterBottom>
-        Duration ( {duration} minutes)
+        Duration ( {duration} minutes )
       </Typography>
       <Slider
         defaultValue={30}        
         aria-labelledby="discrete-slider"        
-        valueLabelDisplay="on"
+        valueLabelDisplay="off"
         onChange={handleDurationChange}
         step={15}
         marks

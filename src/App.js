@@ -6,6 +6,7 @@ import {
   Switch,
   Route  
 } from "react-router-dom";
+import { ConfirmProvider } from 'material-ui-confirm';
 
 import Navigator from './Navigator.js';
 import Home from './Home.js';
@@ -18,6 +19,7 @@ import Trainings from './Trainings.js';
 
 function App() {
   return (
+    <ConfirmProvider>
     <div className="App">      
       <Router>
       <div>
@@ -30,8 +32,9 @@ function App() {
               <Route path="/contact" render={() => <h1>Contactaddress</h1>}/>
               <Route render={() => <h1>Page not found</h1>}/>
           </Switch></div>
-      </Router>
+      </Router>      
     </div>
+    </ConfirmProvider>
   );
 }
 

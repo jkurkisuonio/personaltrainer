@@ -15,7 +15,6 @@ export default function MySnackbar(props){
     //    setOpen(false);
     //    
     // };
-
    const [open, setOpen] = React.useState(props.visible);
   
   return (    
@@ -30,10 +29,7 @@ export default function MySnackbar(props){
         onClose={props.handleClose}
         message={props.message}
         action={
-          <React.Fragment>
-            <Button color="secondary" size="small" onClick={props.handleClose}>
-              UNDO
-            </Button>
+          <React.Fragment>    
             <IconButton size="small" aria-label="close" color="inherit" onClick={props.handleClose}>
               <CloseIcon fontSize="small" />
             </IconButton>

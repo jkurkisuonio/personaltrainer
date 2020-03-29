@@ -9,11 +9,12 @@ import ReactTable from 'react-table-v6';
 import moment from 'moment';
 import AddTraining from './AddTraining';
 import MySnackBar from './MySnackBar';
+import { useConfirm } from 'material-ui-confirm';
 
 export default function Trainings(props) {
     const [open, setOpen] = React.useState(false);
 
-    const [snackbarVisible, setSnackBarVisible] = React.useState(true);
+    const [snackbarVisible, setSnackBarVisible] = React.useState(false);
     const [snackbarMsg, setSnackbarMsg] = React.useState('');
 
     const handleClickOpen = () => {     
@@ -61,21 +62,30 @@ export default function Trainings(props) {
     .catch(err => console.error(err))
     }
 
-
+    const confirm = useConfirm();
+    
     const deleteTraining = (link) => {
-      if (window.confirm('Are you sure?')){
-      fetch(link,{method: 'DELETE'})
-      .then (res => { fetchData();
-        setSnackbarMsg('Training Deleted.');
-       setSnackBarVisible(true);
-      })
-      .catch(err => console.error(err))
-      }
-  } 
+      //if (window.confirm('Are you sure?')){
+        confirm({description: 'Delete action is permanent!'})
+        .then(() => {
+          fetch(link,{method: 'DELETE'})
+          .then (res => { fetchData();
+            setSnackbarMsg('Training Deleted.');
+            setSnackBarVisible(true);
+            })
+          .catch(err => console.error(err))
+      });
+    }
+  
 
   
     const handleClose = () => {
       setOpen(false);
+      setSnackBarVisible(false);
+    };
+
+    const handleSnackbarClose = () => {      
+      setSnackBarVisible(false);
     };
 
     const [trainings, setTrainings] = React.useState([]);
@@ -118,6 +128,7 @@ export default function Trainings(props) {
           </Button>
         </DialogActions>
       </Dialog>
+      {snackbarVisible ? <MySnackBar  message={snackbarMsg} handleClose={handleSnackbarClose} handleOpen={handleOpen} /> : null}
      
     </div>
 );

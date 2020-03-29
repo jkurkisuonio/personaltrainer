@@ -32,7 +32,7 @@ class CustomerTable extends Component
             {
                 sortable: false,
                 filterable: false,
-                width: 100,
+                width: 110,
                 accessor: 'links[2].href',               
                 Cell: ({row, original}) => <Trainings links={original.links}  name={original.firstname + ' ' + original.lastname} saveTraining={this.props.saveTraining} />
           
@@ -50,7 +50,7 @@ class CustomerTable extends Component
                 id:'delete',
                 accessor: '_links.self.href',
                 sortable: false,
-                width: 100,
+                width: 110,
                 filterable: false,            
                 Cell: (row)=> (
                 <Button style={{margin: 10}} variant="outlined" size="small" color="secondary" onClick={() => this.props.deleteCustomer(row.original.links[1].href)}>

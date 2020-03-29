@@ -2,12 +2,14 @@ import React, { useState }  from 'react';
 import CustomerTable from './components/CustomerTable';
 import AddCustomer from './components/AddCustomer';
 import MySnackBar from './components/MySnackBar';
+import { useConfirm } from 'material-ui-confirm';
+
 
 function Customers() {
 
     const [customer, setCustomer] = useState({desc: '', date: ''});
     const [customers, setCustomers] = useState([]);
-    const [snackbarVisible, setSnackBarVisible] = useState(true);
+    const [snackbarVisible, setSnackBarVisible] = useState(false);    
     const [snackbarMsg, setSnackbarMsg] = useState('');
 
 
@@ -23,23 +25,35 @@ function Customers() {
       .catch(err => console.error(err))
     
   }
+  const confirm = useConfirm();
 
   const deleteCustomer = (link) => {
-    if (window.confirm('Are you sure?')){
-    fetch(link,{method: 'DELETE'})
-    .then (res => { fetchData();
-      setSnackbarMsg('Customer Deleted.');
-     setSnackBarVisible(true);
-    })
-    .catch(err => console.error(err))
+    // Show alertdialog    
+    
+    //if (window.confirm('Are you sure?')){
+      confirm({description: 'Delete action is permanent!'})
+    .then(() => {
+      fetch(link,{method: 'DELETE'})
+      .then (res => { fetchData();
+        setSnackbarMsg('Customer Deleted.');
+       setSnackBarVisible(true);
+      })
+      .catch(err => console.error(err))
+
+
+     });
     }
-} 
+      
+  
+   
 
  const handleClose = (event, reason) => {
  if (reason === 'clickaway') {
+            setSnackBarVisible(false);
            return true;
       }
-        return false;
+      setSnackBarVisible(false);  
+      return false;
         
      };
 
@@ -84,8 +98,8 @@ return (
 <div>
     <h1>CUSTOMERS: </h1>
     <AddCustomer saveCustomer={saveCustomer} />
-    <CustomerTable customers={customers} updateCustomer={updateCustomer} deleteCustomer={deleteCustomer}  />
-    <MySnackBar visible={snackbarVisible} message={snackbarMsg} handleOpen={handleOpen} handleClose={handleClose} />
+    <CustomerTable customers={customers} updateCustomer={updateCustomer} deleteCustomer={deleteCustomer}  />     
+     {snackbarVisible ? <MySnackBar  message={snackbarMsg} handleClose={handleClose} handleOpen={handleOpen} /> : null}
 </div>
 );
 }
