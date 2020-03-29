@@ -8,14 +8,23 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import ReactTable from 'react-table-v6';
 import moment from 'moment';
 import AddTraining from './AddTraining';
+import MySnackBar from './MySnackBar';
 
 export default function Trainings(props) {
     const [open, setOpen] = React.useState(false);
+
+    const [snackbarVisible, setSnackBarVisible] = React.useState(true);
+    const [snackbarMsg, setSnackbarMsg] = React.useState('');
 
     const handleClickOpen = () => {     
       fetchData();
       setOpen(true);
     };
+
+    const handleOpen = () =>
+    {
+      return true;
+    }
 
     const fetchData = () =>
     {
@@ -33,7 +42,7 @@ export default function Trainings(props) {
     }
 
     const saveTraining = (links,trainings,selectedDate) => {
-      // TODO: implement saveTrainings to Backend.
+      
       console.log("Links: " + links[2].href);
       console.log("Trainings: " + trainings);
       console.log("selectedDate: " + selectedDate);
@@ -53,48 +62,41 @@ export default function Trainings(props) {
     }
 
 
+    const deleteTraining = (link) => {
+      if (window.confirm('Are you sure?')){
+      fetch(link,{method: 'DELETE'})
+      .then (res => { fetchData();
+        setSnackbarMsg('Training Deleted.');
+       setSnackBarVisible(true);
+      })
+      .catch(err => console.error(err))
+      }
+  } 
+
   
     const handleClose = () => {
       setOpen(false);
     };
 
     const [trainings, setTrainings] = React.useState([]);
-
-     const handleInputChange = (event) => {
-      //  setCar({...car, [event.target.name]: event.target.value })
-    }
-    
-
-    const updateCar = () => {
-        //props.updateCar(car, props.car._links.car.href);
-        handleClose();
-    }
-
-    const columns = [
-       /* "links" : [ {
-            "rel" : "self",
-            "href" : "https://customerrest.herokuapp.com/api/customers/1/trainings"
-          } ],
-          "content" : [ {
-            "date" : "2020-03-10T17:25:55.931+0000",
-            "duration" : 60,
-            "activity" : "Spinning",
-            "content" : [ ],
-            "links" : [ {
-              "rel" : "self",
-              "href" : "https://customerrest.herokuapp.com/api/trainings/13"
-            }, {
-              "rel" : "training",
-              "href" : "https://customerrest.herokuapp.com/api/trainings/13"
-            }, {
-              "rel" : "customer",
-              "href" : "https://customerrest.herokuapp.com/api/trainings/13/customer"
-            } ]
-          }, {*/
+ 
+    const columns = [    
             {Header:'Date', accessor: 'date', show: false},
          {Cell: ({row, original}) =>  moment(original.date).format('LL'), Header: 'Date'},
-         {   Header:'Duration', accessor: 'duration', Cell: (row) => row.value != null ? row.value + " min" : null    }, //  String-based value accessors!
-         {Header:'Activity', accessor: 'activity'} //  String-based value accessors!                          
+         {   Header:'Duration', accessor: 'duration', Cell: (row) => row.value != null ? row.value + " min" : null    }, 
+         {Header:'Activity', accessor: 'activity'},
+         {
+                
+          id:'delete',
+          accessor: '_links.self.href',
+          sortable: false,
+          width: 100,
+          filterable: false,            
+          Cell: (row)=> (
+          <Button style={{margin: 10}} variant="outlined" size="small" color="secondary" onClick={() => deleteTraining(row.original.links[1].href)}>
+                    Delete
+                  </Button> 
+          )}
      ]
 
  
@@ -110,15 +112,13 @@ export default function Trainings(props) {
         <DialogContent>             
            <ReactTable data={trainings} columns={columns} sortable={true} defaultPageSize={10} /> 
         </DialogContent>
-        <DialogActions>
+        <DialogActions>         
           <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={updateCar} color="primary">
-            Save
+            Close
           </Button>
         </DialogActions>
       </Dialog>
+     
     </div>
 );
 }

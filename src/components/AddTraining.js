@@ -39,7 +39,8 @@ export default function AddTraining(props){
       
   
       const addTraining = () => {
-          props.saveTraining(props.links,training, selectedDate);
+        // Call function saveTraining - got it from parent
+        props.saveTraining(props.links,training, selectedDate);
           handleClose();
       };
 
