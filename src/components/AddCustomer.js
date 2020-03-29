@@ -31,6 +31,9 @@ export default function AddCustomer(props){
   
       const addCustomer = () => {
           props.saveCustomer(customer);
+          // Empty customer object
+          setCustomer({firstname: '', lastname: '',streetaddress: '',postcode: '', city: '', email: '', phone: ''});
+
           handleClose();
       }
   
