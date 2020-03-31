@@ -29,7 +29,10 @@ const [scheduleData, setScheduleData] = React.useState([]);
       let dt = new Date(item.date); 
       let endDate = new Date(dt.getTime() + item.duration*60000);
      //console.log("End date: " + endDate);
-      arr.push({startDate: item.date, endDate: endDate, title: item.customer.firstname + " " + item.customer.lastname + " " + item.activity });
+      //arr.push({startDate: item.date, endDate: endDate, title: item.customer.firstname + " " + item.customer.lastname + " " + item.activity });
+      let name = ""
+      if (item != null && item.customer != null && item.customer.firstname != null) name = item.customer.firstname + " " + item.customer.lastname;
+      arr.push({startDate: item.date, endDate: endDate, title: name + " " + item.activity });
       //console.log("ITEM DATE:" + item.date);
       //console.log("ITEM ACTIVITY: " + item.activity);
     }

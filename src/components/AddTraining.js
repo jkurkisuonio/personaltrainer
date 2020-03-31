@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 import MomentUtils from '@date-io/moment';
-import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
+import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
 
 export default function AddTraining(props){
 
@@ -118,8 +118,17 @@ export default function AddTraining(props){
         max={240}
       />   
 
-<MuiPickersUtilsProvider utils={MomentUtils}>   
-<DatePicker value={selectedDate} onChange={handleDateChange} />
+<MuiPickersUtilsProvider  utils={MomentUtils}>   
+
+<DateTimePicker
+        label="DateTimePicker"
+        inputVariant="outlined"
+        value={selectedDate}
+        onChange={handleDateChange}
+      />
+
+
+
     </MuiPickersUtilsProvider>
 
         </DialogContent>
