@@ -20,6 +20,9 @@ return (
                 <li className="nav-item active">
                     <Link className="nav-link" to="/customers">Customers</Link>
                 </li>
+                <li className="nav-item active">
+                    <Link className="nav-link" to="/schedules">Schedules</Link>
+                </li>
                 <li className="nav-item">
                     <Link className="nav-link" to="/about">About</Link>
                 </li>

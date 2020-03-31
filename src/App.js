@@ -13,6 +13,7 @@ import Home from './Home.js';
 import About from './About.js';
 import Customers from './Customers.js';
 import Trainings from './Trainings.js';
+import TrainingSchedule from './components/TrainingSchedule';
 
 
 
@@ -28,6 +29,7 @@ function App() {
               <Route exact path="/" component={Home}/>
               <Route path="/trainings" component={Trainings}/>
               <Route path="/customers" component={Customers}/>
+              <Route path="/schedules" component={TrainingSchedule}/>
               <Route path="/about" component={About}/>
               <Route path="/contact" render={() => <h1>Contactaddress</h1>}/>
               <Route render={() => <h1>Page not found</h1>}/>
