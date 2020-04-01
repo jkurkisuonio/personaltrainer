@@ -5,6 +5,7 @@ import {
   Scheduler,
   DayView,
   WeekView,
+  MonthView,
   Appointments,
   Toolbar,
   ViewSwitcher,
@@ -64,6 +65,7 @@ const [scheduleData, setScheduleData] = React.useState([]);
               
                 <DayView startDayHour={8} endDayHour={21} />
                 <WeekView  startDayHour={8} endDayHour={21} />
+                <MonthView  startDayHour={8} endDayHour={21} />
                 <Appointments />
                 </Scheduler>
             </Paper>
