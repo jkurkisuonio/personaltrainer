@@ -9,31 +9,33 @@ import {
   Appointments,
   Toolbar,
   ViewSwitcher,
+  DateNavigator,  
+  TodayButton,
 } from '@devexpress/dx-react-scheduler-material-ui';
-import MomentUtils from '@date-io/moment';
+
 
 export default function TrainingSchedule(props)
 {
 
 const [currentDate, setCurrentDate] = React.useState(Date.now());
 const [scheduleData, setScheduleData] = React.useState([]);
+const arr = [];
 
-    const [schedulerData, setschedulerData] = React.useState([]);
 
-    const arr = [];
 
     function myFunction(item, index) {
       //console.log("ITEM DATE: " + item.date + " Duration: " + item.duration);
-      //  { startDate: '2018-11-01T12:00', endDate: '2018-11-01T13:30', title: 'Go to a gym' },
-      //let endDate = (MomentUtils(item.date)).add(item.duration, 'm').toDate();
-      //let endDate = (MomentUtils(item.date));
+      // Calendar data format: { startDate: '2018-11-01T12:00', endDate: '2018-11-01T13:30', title: 'Go to a gym' },
+
       let dt = new Date(item.date); 
       let endDate = new Date(dt.getTime() + item.duration*60000);
-     //console.log("End date: " + endDate);
-      //arr.push({startDate: item.date, endDate: endDate, title: item.customer.firstname + " " + item.customer.lastname + " " + item.activity });
-      let name = ""
+      
+      //console.log("End date: " + endDate);
+      
+      let name = "";
       if (item != null && item.customer != null && item.customer.firstname != null) name = item.customer.firstname + " " + item.customer.lastname;
       arr.push({startDate: item.date, endDate: endDate, title:  item.activity + " / " + name });
+      
       //console.log("ITEM DATE:" + item.date);
       //console.log("ITEM ACTIVITY: " + item.activity);
     }
@@ -60,9 +62,10 @@ const [scheduleData, setScheduleData] = React.useState([]);
              
                 <Scheduler data={scheduleData}>
                 <Toolbar />
-                <ViewState currentDate={currentDate} />
+                <ViewState currentDate={currentDate} onCurrentDateChange={setCurrentDate} />   
+                <DateNavigator />
+                <TodayButton />
                 <ViewSwitcher />
-              
                 <DayView startDayHour={8} endDayHour={21} />
                 <WeekView  startDayHour={8} endDayHour={21} />
                 <MonthView  startDayHour={8} endDayHour={21} />
